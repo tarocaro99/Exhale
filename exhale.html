@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Exhale — Ambient Cyberpunk</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg0:#07070F; --bg1:#0B0B1A; --bg2:#12132A; --bg3:#1B1D3A; --border:#2C2F55;
+  --t0:#F2F0FF; --t1:#A9A6D9; --t2:#6B6A9E;
+  --aA:#22E1D6; --aB:#7C5CFF; --aC:#FF4FD8;
+  --grad:linear-gradient(135deg,var(--aA),var(--aB) 55%,var(--aC));
+  --gradSoft:linear-gradient(135deg,color-mix(in srgb,var(--aA) 22%,transparent),color-mix(in srgb,var(--aC) 22%,transparent));
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{height:100%}
+body{
+  font-family:'JetBrains Mono',ui-monospace,monospace;
+  background:var(--bg0); color:var(--t0);
+  display:flex;align-items:center;justify-content:center;gap:34px;flex-wrap:wrap;
+  padding:40px 20px;min-height:100vh;position:relative;overflow-x:hidden;
+}
+/* ambient background blobs */
+body::before,body::after{content:"";position:fixed;border-radius:50%;filter:blur(120px);z-index:0;opacity:.5;pointer-events:none}
+body::before{width:640px;height:640px;background:radial-gradient(circle,var(--aB),transparent 70%);top:-160px;left:-120px}
+body::after{width:720px;height:720px;background:radial-gradient(circle,var(--aA),transparent 70%);bottom:-220px;right:-180px}
+.bgblob{position:fixed;width:560px;height:560px;border-radius:50%;filter:blur(130px);background:radial-gradient(circle,var(--aC),transparent 70%);opacity:.28;top:40%;left:45%;z-index:0;pointer-events:none;animation:drift 22s ease-in-out infinite alternate}
+@keyframes drift{from{transform:translate(-40px,-30px)}to{transform:translate(60px,50px)}}
+
+.stage{position:relative;z-index:1;display:flex;gap:34px;flex-wrap:wrap;align-items:flex-start;justify-content:center}
+
+/* brand token strip */
+.brand{width:300px;background:linear-gradient(180deg,var(--bg1),var(--bg2));border:1px solid var(--border);border-radius:26px;padding:26px 22px;position:relative;overflow:hidden}
+.brand h1{font-weight:800;font-size:30px;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;display:inline-block}
+.brand .cursor{display:inline-block;width:9px;height:26px;border-radius:2px;background:var(--grad);vertical-align:-4px;margin-left:4px;animation:blink 1.2s steps(2) infinite}
+@keyframes blink{50%{opacity:.15}}
+.kick{font-size:9px;letter-spacing:.18em;color:var(--t2);margin-top:6px}
+.sec-l{font-size:9px;letter-spacing:.16em;color:var(--t2);margin:22px 0 10px}
+.grow{display:flex;gap:8px;flex-wrap:wrap}
+.gchip{width:52px;height:34px;border-radius:9px;border:1px solid rgba(255,255,255,.06)}
+.swrow{display:flex;gap:8px;flex-wrap:wrap}
+.sw{width:38px;height:38px;border-radius:9px;border:1px solid rgba(255,255,255,.08);position:relative}
+.sw span{position:absolute;bottom:-15px;left:0;font-size:7px;color:var(--t2)}
+.type-demo div{margin:2px 0}
+.tw800{font-weight:800}.tw500{font-weight:500}.tw400{font-weight:400}
+.hexpill{font-size:9px;color:var(--aA);border:1px solid var(--border);border-radius:6px;padding:3px 6px;display:inline-block;margin:3px 4px 0 0}
+
+/* phone */
+.phone{width:340px;height:720px;background:var(--bg1);border-radius:42px;border:1px solid var(--border);
+  box-shadow:0 30px 90px rgba(0,0,0,.6),0 0 0 8px #050509,0 0 60px rgba(124,92,255,.15);
+  position:relative;overflow:hidden;display:flex;flex-direction:column}
+.notch{position:absolute;top:0;left:50%;transform:translateX(-50%);width:130px;height:26px;background:#050509;border-radius:0 0 16px 16px;z-index:40}
+.screen{flex:1;position:relative;overflow:hidden}
+.view{position:absolute;inset:0;padding:44px 20px 88px;overflow-y:auto;display:none;flex-direction:column}
+.view.active{display:flex;animation:fade .35s ease}
+.view::-webkit-scrollbar{width:0}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+.topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:4px}
+.logo{font-weight:800;font-size:19px;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.logo .cur{display:inline-block;width:6px;height:16px;border-radius:2px;background:var(--grad);vertical-align:-2px;margin-left:2px;animation:blink 1.2s steps(2) infinite}
+.iconbtn{width:34px;height:34px;border-radius:11px;border:1px solid var(--border);background:var(--bg2);display:grid;place-items:center;color:var(--t1);font-size:14px;cursor:pointer;transition:.2s}
+.iconbtn:hover{border-color:var(--aB);color:var(--t0)}
+.greet{color:var(--t2);font-size:11px;letter-spacing:.06em;margin-top:14px}
+.greet b{color:var(--t0);font-weight:500}
+
+/* progress ring */
+.ringwrap{display:flex;flex-direction:column;align-items:center;margin-top:18px}
+.ring{position:relative;width:210px;height:210px;cursor:pointer}
+.ring svg{transform:rotate(-90deg);filter:drop-shadow(0 0 14px color-mix(in srgb,var(--aB) 60%,transparent))}
+.ring .glowpulse{position:absolute;inset:14px;border-radius:50%;background:var(--gradSoft);filter:blur(18px);animation:breathe 5.5s ease-in-out infinite;z-index:-1}
+@keyframes breathe{0%,100%{transform:scale(.86);opacity:.5}50%{transform:scale(1.05);opacity:.9}}
+.ring .center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+.ring .big{font-size:44px;font-weight:800}
+.ring .lbl{font-size:9px;letter-spacing:.16em;color:var(--t2);margin-top:2px}
+.tapcue{font-size:9px;color:var(--t2);letter-spacing:.1em;margin-top:14px;opacity:.9}
+.tapcue b{color:var(--aA)}
+.hstat{display:flex;gap:10px;margin-top:22px;width:100%}
+.hstat .card{flex:1;background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:12px}
+.hstat .n{font-size:20px;font-weight:700}
+.hstat .k{font-size:9px;color:var(--t2);letter-spacing:.08em;margin-top:2px}
+.hstat .n.grad{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+
+/* stats sheet (folded-in stats tab) */
+.sheet{position:absolute;left:0;right:0;bottom:0;background:linear-gradient(180deg,var(--bg2),var(--bg1));
+  border-top:1px solid var(--border);border-radius:26px 26px 0 0;padding:16px 18px 90px;transform:translateY(102%);transition:transform .42s cubic-bezier(.22,1,.36,1);z-index:30;box-shadow:0 -20px 60px rgba(0,0,0,.5)}
+.sheet.open{transform:translateY(0)}
+.grip{width:44px;height:4px;border-radius:3px;background:var(--border);margin:0 auto 14px}
+.seg{display:flex;background:var(--bg1);border:1px solid var(--border);border-radius:12px;padding:4px;gap:4px;margin-bottom:16px}
+.seg button{flex:1;border:0;background:transparent;color:var(--t1);font-family:inherit;font-size:11px;padding:8px;border-radius:9px;cursor:pointer;letter-spacing:.06em;transition:.2s}
+.seg button.on{background:var(--grad);color:#07070F;font-weight:700}
+.bars{display:flex;align-items:flex-end;gap:6px;height:110px;margin:6px 0 14px}
+.bars .b{flex:1;background:var(--grad);border-radius:6px 6px 3px 3px;min-height:6px;opacity:.85;transition:height .5s ease}
+.brow{display:flex;justify-content:space-between;font-size:8px;color:var(--t2);margin-bottom:14px}
+.stgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.stgrid .c{background:var(--bg3);border:1px solid var(--border);border-radius:14px;padding:12px}
+.stgrid .c .n{font-size:22px;font-weight:800}
+.stgrid .c .n.grad{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.stgrid .c .k{font-size:9px;color:var(--t2);letter-spacing:.06em;margin-top:3px}
+
+/* generic */
+.h2{font-size:13px;font-weight:700;letter-spacing:.04em;margin:20px 0 10px;display:flex;align-items:center;gap:8px}
+.h2 .dot{width:6px;height:6px;border-radius:50%;background:var(--grad)}
+.sub{font-size:9px;color:var(--t2);letter-spacing:.1em;margin-top:2px}
+.btn{font-family:inherit;border:0;border-radius:14px;padding:13px;font-size:12px;font-weight:700;letter-spacing:.04em;color:#07070F;background:var(--grad);cursor:pointer;width:100%;transition:.2s;box-shadow:0 8px 24px color-mix(in srgb,var(--aB) 35%,transparent)}
+.btn:active{transform:translateY(1px) scale(.99)}
+.btn.ghost{background:var(--bg2);color:var(--t0);border:1px solid var(--border);box-shadow:none}
+.btn.mini{padding:8px 12px;font-size:10px;width:auto;border-radius:10px}
+
+/* pods */
+.podscroll{max-height:360px;overflow-y:auto;display:flex;flex-direction:column;gap:18px;margin:10px 0 4px;padding:10px 4px 6px;scroll-snap-type:y proximity;flex-shrink:0;-webkit-mask-image:linear-gradient(180deg,transparent,#000 14px,#000 calc(100% - 14px),transparent);mask-image:linear-gradient(180deg,transparent,#000 14px,#000 calc(100% - 14px),transparent)}
+.podscroll.hide{display:none}
+.podscroll::-webkit-scrollbar{width:3px}
+.podscroll::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
+.motionpod{position:relative;height:300px;perspective:720px;flex-shrink:0;scroll-snap-align:start}
+.orbitwrap{position:absolute;top:50%;left:50%;width:0;height:0}
+.bubble{position:absolute;top:50%;left:50%;margin:-63px 0 0 -63px;width:126px;height:126px;background:var(--gradSoft);border:1px solid color-mix(in srgb,var(--aB) 40%,transparent);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;
+  transform-style:preserve-3d;animation:morph 9.5s ease-in-out infinite,float3d 7s ease-in-out infinite;
+  box-shadow:0 0 40px color-mix(in srgb,var(--aB) 30%,transparent)}
+.bubble::before{content:"";position:absolute;inset:-14px;border-radius:inherit;border:1px dashed color-mix(in srgb,var(--aA) 40%,transparent);animation:spin 24s linear infinite}
+@keyframes morph{
+  0%,100%{border-radius:42% 58% 65% 35%/45% 40% 60% 55%}
+  25%{border-radius:58% 42% 38% 62%/55% 62% 38% 45%}
+  50%{border-radius:50% 50% 42% 58%/60% 45% 55% 40%}
+  75%{border-radius:38% 62% 55% 45%/40% 55% 45% 60%}
+}
+@keyframes float3d{
+  0%{transform:translateY(-6px) rotateX(6deg) rotateY(-8deg) translateZ(0) scale(1)}
+  25%{transform:translateY(3px) rotateX(-5deg) rotateY(7deg) translateZ(14px) scale(1.03)}
+  50%{transform:translateY(7px) rotateX(4deg) rotateY(10deg) translateZ(-8px) scale(.98)}
+  75%{transform:translateY(-3px) rotateX(-6deg) rotateY(-5deg) translateZ(10px) scale(1.02)}
+  100%{transform:translateY(-6px) rotateX(6deg) rotateY(-8deg) translateZ(0) scale(1)}
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+.bubble .pn{font-size:13px;font-weight:700}
+.bubble .ps{font-size:8px;color:var(--t1);letter-spacing:.1em;margin-top:2px}
+.bubble .live{font-size:8px;color:var(--aA);margin-top:6px;display:flex;align-items:center;gap:4px}
+.bubble .live i{width:5px;height:5px;border-radius:50%;background:var(--aA);box-shadow:0 0 8px var(--aA);animation:blink 1.4s infinite}
+
+/* orbiting presence avatars — only rendered for members active on the app right now */
+.orbitAv{position:absolute;left:0;top:0;opacity:0;
+  transform:translate(-50%,-50%) translate(var(--x),var(--y)) scale(.4);
+  animation:popin .5s cubic-bezier(.22,1,.36,1) forwards}
+@keyframes popin{to{opacity:1;transform:translate(-50%,-50%) translate(var(--x),var(--y)) scale(1)}}
+.orbitAvIn{position:relative;width:28px;height:28px;border-radius:50%;display:grid;place-items:center;
+  font-size:10px;font-weight:700;color:#07070F;box-shadow:0 4px 14px rgba(0,0,0,.45);
+  animation-name:bob;animation-timing-function:ease-in-out;animation-iteration-count:infinite}
+@keyframes bob{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
+.orbitAvIn .pulse{position:absolute;bottom:-1px;right:-1px;width:7px;height:7px;border-radius:50%;background:var(--aA);border:2px solid var(--bg1);box-shadow:0 0 6px var(--aA);animation:blink 1.6s infinite}
+
+.trigger{background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:13px;display:flex;align-items:center;gap:12px}
+.trigger .ic{width:38px;height:38px;border-radius:11px;background:var(--gradSoft);display:grid;place-items:center;font-size:16px}
+.trigger .tx{flex:1}
+.trigger .tt{font-size:11px;font-weight:600}
+.trigger .td{font-size:9px;color:var(--t2);margin-top:2px}
+
+.lbtoggle{width:22px;height:22px;border-radius:7px;border:1px solid var(--border);background:var(--bg2);display:grid;place-items:center;font-size:10px;color:var(--t1);cursor:pointer;transition:transform .3s ease,border-color .2s,color .2s;flex-shrink:0}
+.lbtoggle:hover{border-color:var(--aB);color:var(--t0)}
+.lbtoggle.collapsed{transform:rotate(-90deg)}
+
+.statsToggleRow{display:flex;align-items:center;justify-content:center;gap:6px;cursor:pointer;padding:8px 0 4px;color:var(--t2);font-size:9px;letter-spacing:.12em;user-select:none;transition:color .2s;margin-top:auto;flex-shrink:0}
+.statsToggleRow:hover{color:var(--t1)}
+.statsArrow{display:inline-block;font-size:11px;transition:transform .3s ease}
+.statsArrow.expanded{transform:rotate(180deg)}
+.podfocus{display:none;flex-shrink:0}
+.podfocus.show{display:block}
+.podstats{overflow-y:auto;max-height:0;opacity:0;margin-top:0;flex-shrink:0;transition:max-height .45s ease,opacity .35s ease,margin .3s ease}
+.podstats::-webkit-scrollbar{width:3px}
+.podstats::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
+.podstats.expanded{max-height:410px;opacity:1;margin-top:6px}
+.lead{display:flex;flex-direction:column;gap:8px;overflow-y:auto;overflow-x:hidden;max-height:260px;opacity:1;transition:max-height .4s ease,opacity .3s ease,margin .3s ease}
+.lead.collapsed{max-height:0;opacity:0;margin:0}
+.lead::-webkit-scrollbar{width:3px}
+.lead::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
+.lrow{display:flex;align-items:center;gap:11px;background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:10px 12px;transition:.4s}
+.lrow.me{border-color:color-mix(in srgb,var(--aB) 60%,transparent);background:var(--gradSoft)}
+.rank{width:22px;font-size:12px;font-weight:800;color:var(--t2);text-align:center}
+.rank.top{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.av{position:relative;width:34px;height:34px;border-radius:11px;display:grid;place-items:center;font-size:13px;font-weight:700;color:#07070F}
+.avdot{position:absolute;bottom:-2px;right:-2px;width:9px;height:9px;border-radius:50%;background:var(--aA);border:2px solid var(--bg2);box-shadow:0 0 6px var(--aA);animation:blink 1.6s infinite}
+.lrow .nm{flex:1;font-size:12px;font-weight:500}
+.lrow .nm small{display:block;font-size:8px;color:var(--t2);font-weight:400;letter-spacing:.05em}
+.pts{font-size:13px;font-weight:800;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.pts small{font-size:8px;color:var(--t2)}
+
+/* discover */
+.rangebox{background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:14px}
+.rangebox .rl{display:flex;justify-content:space-between;font-size:10px;color:var(--t1);margin-bottom:10px}
+.rangebox .rl b{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;font-weight:800}
+input[type=range]{-webkit-appearance:none;width:100%;height:5px;border-radius:4px;background:var(--bg3);outline:none}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;border-radius:50%;background:var(--grad);cursor:pointer;box-shadow:0 0 12px color-mix(in srgb,var(--aB) 60%,transparent)}
+.podcard{background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:12px;display:flex;align-items:center;gap:12px}
+.podcard . ic{}
+.podcard .dot2{width:40px;height:40px;border-radius:12px;background:var(--gradSoft);display:grid;place-items:center;font-size:16px;flex-shrink:0}
+.podcard .pinfo{flex:1;min-width:0}
+.podcard .pt{font-size:12px;font-weight:600;display:flex;align-items:center;gap:6px}
+.tempchip{font-size:7px;letter-spacing:.08em;padding:2px 6px;border-radius:20px;background:color-mix(in srgb,var(--aC) 20%,transparent);color:var(--aC);border:1px solid color-mix(in srgb,var(--aC) 40%,transparent)}
+.permchip{font-size:7px;letter-spacing:.08em;padding:2px 6px;border-radius:20px;background:color-mix(in srgb,var(--aA) 18%,transparent);color:var(--aA);border:1px solid color-mix(in srgb,var(--aA) 40%,transparent)}
+.podcard .pm{font-size:8px;color:var(--t2);margin-top:3px;letter-spacing:.04em}
+
+/* friends */
+.addbar{display:flex;gap:8px;margin-bottom:6px}
+.inp{flex:1;background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:11px 12px;color:var(--t0);font-family:inherit;font-size:11px;outline:none}
+.inp:focus{border-color:var(--aB)}
+.inp::placeholder{color:var(--t2)}
+.freq{display:flex;align-items:center;gap:11px;background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:9px 11px}
+.freq .fn{flex:1;font-size:11px;font-weight:500}
+.freq .fn small{display:block;font-size:8px;color:var(--t2);font-weight:400}
+
+/* profile */
+.prof-head{display:flex;flex-direction:column;align-items:center;margin-top:8px}
+.bigav{width:82px;height:82px;border-radius:26px;background:var(--grad);display:grid;place-items:center;font-size:30px;font-weight:800;color:#07070F;box-shadow:0 0 40px color-mix(in srgb,var(--aB) 40%,transparent)}
+.pname{font-size:17px;font-weight:700;margin-top:12px}
+.phandle{font-size:10px;color:var(--t2);letter-spacing:.06em}
+.pmini{display:flex;gap:20px;margin-top:14px}
+.pmini div{text-align:center}
+.pmini .n{font-size:16px;font-weight:800}
+.pmini .k{font-size:8px;color:var(--t2);letter-spacing:.08em;margin-top:2px}
+.themecard{background:var(--bg2);border:1px solid var(--border);border-radius:18px;padding:14px}
+.presets{display:flex;gap:10px;flex-wrap:wrap;margin-top:4px}
+.preset{width:44px;height:44px;border-radius:13px;cursor:pointer;border:2px solid transparent;transition:.2s;position:relative}
+.preset.on{border-color:var(--t0);transform:scale(1.06)}
+.preset:hover{transform:scale(1.06)}
+.huerow{margin-top:16px}
+.huerow label{font-size:9px;color:var(--t2);letter-spacing:.08em;display:flex;justify-content:space-between;margin-bottom:8px}
+.huebar{-webkit-appearance:none;width:100%;height:8px;border-radius:5px;outline:none;
+  background:linear-gradient(90deg,#ff0055,#ffbb00,#3bff88,#22e1d6,#4f8bff,#7c5cff,#ff4fd8,#ff0055)}
+.huebar::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:#fff;border:2px solid var(--bg1);cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.5)}
+.rowlist{display:flex;flex-direction:column;gap:8px;margin-top:4px}
+.prow{display:flex;align-items:center;gap:12px;background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:12px}
+.prow .ic{width:32px;height:32px;border-radius:10px;background:var(--gradSoft);display:grid;place-items:center;font-size:14px}
+.prow .l{flex:1;font-size:11px;font-weight:500}
+.prow .r{font-size:10px;color:var(--t2)}
+
+/* bottom nav */
+.nav{position:absolute;left:0;right:0;bottom:0;height:72px;background:color-mix(in srgb,var(--bg1) 88%,transparent);
+  backdrop-filter:blur(14px);border-top:1px solid var(--border);display:flex;z-index:20}
+.nav button{flex:1;border:0;background:transparent;color:var(--t2);font-family:inherit;font-size:8px;letter-spacing:.08em;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;cursor:pointer;padding-bottom:8px;transition:.2s}
+.nav button .gi{font-size:19px;line-height:1}
+.nav button.on{color:var(--t0)}
+.nav button.on .gi{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 0 8px color-mix(in srgb,var(--aB) 60%,transparent))}
+.toast{position:absolute;left:50%;bottom:88px;transform:translateX(-50%) translateY(20px);background:var(--bg3);border:1px solid var(--aB);
+  color:var(--t0);font-size:10px;padding:9px 16px;border-radius:20px;opacity:0;transition:.3s;z-index:50;white-space:nowrap;box-shadow:0 8px 30px rgba(0,0,0,.5)}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.caption{width:100%;text-align:center;font-size:10px;color:var(--t2);letter-spacing:.1em;margin-top:14px}
+.backrow{display:flex;align-items:center;gap:10px;margin-bottom:6px}
+.backrow .bk{width:32px;height:32px;border-radius:10px;border:1px solid var(--border);background:var(--bg2);display:grid;place-items:center;cursor:pointer;color:var(--t1)}
+.backrow h3{font-size:14px;font-weight:700}
+</style>
+</head>
+<body>
+<div class="bgblob"></div>
+<div class="stage">
+
+  <!-- BRAND TOKEN STRIP -->
+  <div class="brand">
+    <div><span style="font-weight:800;font-size:30px;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent">exhale</span><span class="cursor"></span></div>
+    <div class="kick">BRAND SYSTEM · CYBERPUNK AMBIENT</div>
+
+    <div class="sec-l">GRADIENT SYSTEM — THE CALM SIGNAL</div>
+    <div class="grow">
+      <div class="gchip" style="background:linear-gradient(135deg,#22E1D6,#7C5CFF,#FF4FD8)"></div>
+      <div class="gchip" style="background:linear-gradient(135deg,#34E8A0,#22E1D6,#4F8BFF)"></div>
+      <div class="gchip" style="background:linear-gradient(135deg,#7C5CFF,#FF4FD8)"></div>
+      <div class="gchip" style="background:linear-gradient(135deg,#FF6B6B,#FFB86C)"></div>
+      <div class="gchip" style="background:linear-gradient(135deg,#4F8BFF,#7C5CFF)"></div>
+    </div>
+
+    <div class="sec-l">NEUTRALS — LAYERED DEEP SPACE</div>
+    <div class="swrow" style="margin-bottom:20px">
+      <div class="sw" style="background:#07070F"><span>bg/0</span></div>
+      <div class="sw" style="background:#0B0B1A"><span>bg/1</span></div>
+      <div class="sw" style="background:#12132A"><span>bg/2</span></div>
+      <div class="sw" style="background:#1B1D3A"><span>bg/3</span></div>
+      <div class="sw" style="background:#2C2F55"><span>bord</span></div>
+      <div class="sw" style="background:#F2F0FF"><span style="color:#F2F0FF">t/0</span></div>
+    </div>
+
+    <div class="sec-l">NEON ACCENTS</div>
+    <div class="swrow" style="margin-bottom:20px">
+      <div class="sw" style="background:#22E1D6"><span>cyan</span></div>
+      <div class="sw" style="background:#7C5CFF"><span>violet</span></div>
+      <div class="sw" style="background:#FF4FD8"><span>magenta</span></div>
+      <div class="sw" style="background:#34E8A0"><span>mint</span></div>
+      <div class="sw" style="background:#4F8BFF"><span>blue</span></div>
+    </div>
+
+    <div class="sec-l">TYPOGRAPHY — JETBRAINS MONO</div>
+    <div class="type-demo">
+      <div class="tw800" style="font-size:26px">Display</div>
+      <div class="tw800" style="font-size:18px">Heading</div>
+      <div class="tw500" style="font-size:13px">Body — clean & calm</div>
+      <div class="tw400" style="font-size:10px;color:var(--t2);letter-spacing:.14em">CAPTION · +14% TRACKING</div>
+    </div>
+
+    <div class="sec-l">FOUNDATIONS</div>
+    <div>
+      <span class="hexpill">radius 10 / 14 / 26</span>
+      <span class="hexpill">spacing · 4px base</span>
+      <span class="hexpill">glow · blur 40</span>
+    </div>
+    <div style="margin-top:14px"><button class="btn" style="pointer-events:none">GRADIENT BUTTON</button></div>
+  </div>
+
+  <!-- PHONE: HOME + PODS + PROFILE -->
+  <div class="phone">
+    <div class="notch"></div>
+    <div class="screen">
+
+      <!-- HOME (stats folded in) -->
+      <div class="view active" id="v-home">
+        <div class="topbar">
+          <div class="logo">exhale<span class="cur"></span></div>
+          <div class="iconbtn" title="notifications">◔</div>
+        </div>
+        <div class="greet">good evening, <b>Nova</b> — you've got this.</div>
+
+        <div class="ringwrap">
+          <div class="ring" id="ring" onclick="openSheet()">
+            <div class="glowpulse"></div>
+            <svg width="210" height="210" viewBox="0 0 210 210">
+              <defs>
+                <linearGradient id="rg" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0" stop-color="var(--aA)"/>
+                  <stop offset="0.55" stop-color="var(--aB)"/>
+                  <stop offset="1" stop-color="var(--aC)"/>
+                </linearGradient>
+              </defs>
+              <circle cx="105" cy="105" r="92" stroke="#1B1D3A" stroke-width="14" fill="none"/>
+              <circle cx="105" cy="105" r="92" stroke="url(#rg)" stroke-width="14" fill="none"
+                stroke-linecap="round" stroke-dasharray="578" stroke-dashoffset="130"/>
+            </svg>
+            <div class="center">
+              <div class="big">78%</div>
+              <div class="lbl">DAILY CALM</div>
+            </div>
+          </div>
+          <div class="tapcue">tap the ring for <b>day / week / month</b> ▸</div>
+        </div>
+
+        <div class="hstat">
+          <div class="card"><div class="n grad">12</div><div class="k">DAY STREAK</div></div>
+          <div class="card"><div class="n">6</div><div class="k">SESSIONS</div></div>
+          <div class="card"><div class="n">48<span style="font-size:10px;color:var(--t2)">m</span></div><div class="k">EXHALED</div></div>
+        </div>
+
+        <!-- stats sheet -->
+        <div class="sheet" id="sheet">
+          <div class="grip"></div>
+          <div class="seg">
+            <button class="on" onclick="setRange(this,'day')">DAY</button>
+            <button onclick="setRange(this,'week')">WEEK</button>
+            <button onclick="setRange(this,'month')">MONTH</button>
+          </div>
+          <div class="bars" id="bars"></div>
+          <div class="brow" id="brow"></div>
+          <div class="stgrid" id="stgrid"></div>
+        </div>
+      </div>
+
+      <!-- PODS -->
+      <div class="view" id="v-pods">
+        <div class="topbar">
+          <div class="logo">pods<span class="cur"></span></div>
+          <div style="display:flex;gap:8px">
+            <div class="iconbtn" title="Discover nearby" onclick="show('v-discover')">◎</div>
+            <div class="iconbtn" title="Friends" onclick="show('v-friends')">☺</div>
+          </div>
+        </div>
+
+        <div class="podscroll" id="podscroll"></div>
+        <div class="podfocus" id="podfocus"></div>
+
+        <div class="podstats" id="podstats">
+          <div class="h2"><span class="dot"></span>Daily trigger</div>
+          <div class="trigger">
+            <div class="ic">◑</div>
+            <div class="tx">
+              <div class="tt">8:00 PM · Evening wind-down</div>
+              <div class="td">completing your daily exhale feeds the pod board ↓</div>
+            </div>
+          </div>
+
+          <div class="h2" style="justify-content:space-between">
+            <span style="display:flex;align-items:center;gap:8px"><span class="dot"></span><span id="lbTitle">Pod leaderboard</span></span>
+            <span style="display:flex;align-items:center;gap:8px">
+              <span class="sub">THIS WEEK</span>
+              <span class="lbtoggle" id="lbtoggle" onclick="toggleLeaderboard()" title="show/hide leaderboard">▾</span>
+            </span>
+          </div>
+          <div class="lead" id="lead"></div>
+
+          <div style="margin-top:14px">
+            <button class="btn" onclick="shareStats()">⇪ SHARE TODAY'S EXHALE → UPDATE BOARD</button>
+          </div>
+          <div style="display:flex;gap:8px;margin-top:8px">
+            <button class="btn ghost" onclick="show('v-discover')" style="flex:1">◎ DISCOVER PODS</button>
+            <button class="btn ghost" onclick="show('v-friends')" style="flex:1">☺ FRIENDS</button>
+          </div>
+        </div>
+
+        <div class="statsToggleRow" onclick="toggleStats()">
+          <span class="statsArrow" id="statsArrow">▾</span>
+          <span id="statsToggleLbl">SHOW STATS</span>
+        </div>
+      </div>
+
+      <!-- DISCOVER (distance finder + temp pods) -->
+      <div class="view" id="v-discover">
+        <div class="backrow"><div class="bk" onclick="show('v-pods')">‹</div><h3>Discover nearby</h3></div>
+        <div class="sub" style="margin-bottom:14px">TEMPORARY PODS FORM AROUND YOU · JOIN, THEN MAKE PERMANENT</div>
+
+        <div class="rangebox">
+          <div class="rl"><span>search radius</span><b id="radlbl">2.5 km</b></div>
+          <input type="range" min="1" max="25" value="5" id="radius" oninput="setRadius(this.value)">
+        </div>
+
+        <div class="h2"><span class="dot"></span>Temporary pods near you</div>
+        <div class="rowlist" id="temppods"></div>
+
+        <div class="h2"><span class="dot"></span>Now permanent</div>
+        <div class="rowlist" id="permpods">
+          <div style="font-size:9px;color:var(--t2);letter-spacing:.06em;padding:6px 2px">join a temp pod, then keep it forever ↑</div>
+        </div>
+      </div>
+
+      <!-- FRIENDS -->
+      <div class="view" id="v-friends">
+        <div class="backrow"><div class="bk" onclick="show('v-pods')">‹</div><h3>Friends</h3></div>
+        <div class="sub" style="margin-bottom:14px">BREATHE TOGETHER · SEE EACH OTHER ON THE BOARD</div>
+
+        <div class="addbar">
+          <input class="inp" id="fadd" placeholder="add by @handle…">
+          <button class="btn mini" onclick="addFriend()">ADD</button>
+        </div>
+
+        <div class="h2"><span class="dot"></span>Requests</div>
+        <div class="rowlist" id="reqs"></div>
+
+        <div class="h2"><span class="dot"></span>Your friends <span class="sub" id="fcount"></span></div>
+        <div class="rowlist" id="friends"></div>
+      </div>
+
+      <!-- PROFILE (color changer) -->
+      <div class="view" id="v-profile">
+        <div class="topbar">
+          <div class="logo">profile<span class="cur"></span></div>
+          <div class="iconbtn">⚙</div>
+        </div>
+
+        <div class="prof-head">
+          <div class="bigav">N</div>
+          <div class="pname">Nova Reyes</div>
+          <div class="phandle">@nova · deep diver</div>
+          <div class="pmini">
+            <div><div class="n grad" style="background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent">12</div><div class="k">STREAK</div></div>
+            <div><div class="n">1.2k</div><div class="k">MINUTES</div></div>
+            <div><div class="n">3</div><div class="k">PODS</div></div>
+          </div>
+        </div>
+
+        <div class="h2"><span class="dot"></span>Your color</div>
+        <div class="themecard">
+          <div style="font-size:9px;color:var(--t2);letter-spacing:.08em;margin-bottom:12px">TAP A GRADIENT — THE WHOLE APP RECOLORS INSTANTLY</div>
+          <div class="presets" id="presets"></div>
+          <div class="huerow">
+            <label><span>CUSTOM HUE</span><span id="huev">shift</span></label>
+            <input type="range" min="0" max="360" value="180" class="huebar" id="hue" oninput="setHue(this.value)">
+          </div>
+        </div>
+
+        <div class="h2"><span class="dot"></span>Account</div>
+        <div class="rowlist">
+          <div class="prow"><div class="ic">◐</div><div class="l">Daily trigger time</div><div class="r">8:00 PM ›</div></div>
+          <div class="prow"><div class="ic">☺</div><div class="l">Friends & pods</div><div class="r">7 ›</div></div>
+          <div class="prow"><div class="ic">◔</div><div class="l">Notifications</div><div class="r">On ›</div></div>
+        </div>
+      </div>
+
+    </div><!-- /screen -->
+
+    <div class="toast" id="toast"></div>
+
+    <!-- NAV: 3 tabs (stats folded into Home) -->
+    <div class="nav">
+      <button class="on" data-v="v-home" onclick="tab(this,'v-home')"><span class="gi">◉</span>HOME</button>
+      <button data-v="v-pods" onclick="tab(this,'v-pods')"><span class="gi">◇</span>PODS</button>
+      <button data-v="v-profile" onclick="tab(this,'v-profile')"><span class="gi">◍</span>PROFILE</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ---------- navigation ---------- */
+function show(id){
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  // sync nav highlight to the owning tab
+  const owner = id==='v-discover'||id==='v-friends' ? 'v-pods' : id;
+  document.querySelectorAll('.nav button').forEach(b=>b.classList.toggle('on',b.dataset.v===owner));
+}
+function tab(btn,id){ closeSheet(); show(id); }
+
+/* ---------- toast ---------- */
+let tt;
+function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');clearTimeout(tt);tt=setTimeout(()=>t.classList.remove('show'),1900);}
+
+/* ---------- home: progress ring -> stats sheet ---------- */
+function openSheet(){document.getElementById('sheet').classList.add('open');setRange(document.querySelector('.seg button.on'),curRange);}
+function closeSheet(){document.getElementById('sheet').classList.remove('open');}
+document.addEventListener('click',e=>{ if(e.target.classList.contains('grip')) closeSheet(); });
+
+let curRange='day';
+const DATA={
+  day:{bars:[40,62,30,80,55,70,90,45],labels:['6a','9a','12','3p','6p','9p','','now'],
+       stats:[['78%','CALM SCORE',1],['6','SESSIONS',0],['48m','EXHALED',0],['12','STREAK',1]]},
+  week:{bars:[55,70,48,82,60,90,74],labels:['M','T','W','T','F','S','S'],
+       stats:[['81%','AVG CALM',1],['31','SESSIONS',0],['4.6h','EXHALED',0],['12','STREAK',1]]},
+  month:{bars:[60,52,71,66,80,58,88,74,63,90,70,84],labels:['','','','','','','','','','','',''],
+       stats:[['76%','AVG CALM',1],['128','SESSIONS',0],['19h','EXHALED',0],['28','BEST STREAK',1]]}
+};
+function setRange(btn,r){
+  curRange=r;
+  document.querySelectorAll('.seg button').forEach(b=>b.classList.remove('on'));
+  if(btn)btn.classList.add('on');
+  const d=DATA[r];
+  document.getElementById('bars').innerHTML=d.bars.map(v=>`<div class="b" style="height:0%"></div>`).join('');
+  requestAnimationFrame(()=>{document.querySelectorAll('#bars .b').forEach((el,i)=>el.style.height=d.bars[i]+'%');});
+  document.getElementById('brow').innerHTML=d.labels.map(l=>`<span>${l}</span>`).join('');
+  document.getElementById('stgrid').innerHTML=d.stats.map(s=>`<div class="c"><div class="n ${s[2]?'grad':''}">${s[0]}</div><div class="k">${s[1]}</div></div>`).join('');
+}
+
+/* ---------- pods: scrollable group chats with live presence bubbles ---------- */
+const PODS=[
+  {name:'Deep Divers', members:[
+    {n:'Kai',c:'#4F8BFF',active:true},{n:'Mila',c:'#FF4FD8',active:true},{n:'Ren',c:'#34E8A0',active:false},
+    {n:'Sol',c:'#FFB86C',active:true},{n:'Juno',c:'#7C5CFF',active:false},{n:'Ash',c:'#FF6B6B',active:false},
+    {n:'Nova',c:'#22E1D6',active:true},
+  ], board:[
+    {n:'Kai',h:'@kai · pod',p:412,c:'#4F8BFF'},
+    {n:'Mila',h:'@mila · pod',p:388,c:'#FF4FD8'},
+    {n:'Nova',h:'@nova · you',p:333,c:'#22E1D6',me:true},
+    {n:'Ren',h:'@ren · pod',p:301,c:'#34E8A0'},
+    {n:'Sol',h:'@sol · pod',p:274,c:'#FFB86C'},
+    {n:'Juno',h:'@juno · pod',p:246,c:'#7C5CFF'},
+    {n:'Ash',h:'@ash · pod',p:198,c:'#FF6B6B'},
+  ]},
+  {name:'Night Owls', members:[
+    {n:'Wren',c:'#7C5CFF',active:true},{n:'Iris',c:'#FF4FD8',active:false},{n:'Dax',c:'#22E1D6',active:true},
+    {n:'Lex',c:'#FFB86C',active:false},{n:'Coco',c:'#34E8A0',active:true},{n:'Nova',c:'#22E1D6',active:false},
+  ], board:[
+    {n:'Wren',h:'@wren · pod',p:298,c:'#7C5CFF'},
+    {n:'Coco',h:'@coco · pod',p:276,c:'#34E8A0'},
+    {n:'Nova',h:'@nova · you',p:249,c:'#22E1D6',me:true},
+    {n:'Dax',h:'@dax · pod',p:212,c:'#22E1D6'},
+    {n:'Lex',h:'@lex · pod',p:190,c:'#FFB86C'},
+    {n:'Iris',h:'@iris · pod',p:151,c:'#FF4FD8'},
+  ]},
+  {name:'Morning Calm', members:[
+    {n:'Theo',c:'#4F8BFF',active:false},{n:'Zara',c:'#FF6B6B',active:true},{n:'Bea',c:'#7C5CFF',active:true},
+    {n:'Owen',c:'#22E1D6',active:false},{n:'Ivy',c:'#FF4FD8',active:false},{n:'Max',c:'#34E8A0',active:true},
+    {n:'Pip',c:'#FFB86C',active:false},{n:'Rue',c:'#4F8BFF',active:false},{n:'Cy',c:'#FF4FD8',active:true},
+    {n:'Nova',c:'#22E1D6',active:true},
+  ], board:[
+    {n:'Zara',h:'@zara · pod',p:402,c:'#FF6B6B'},
+    {n:'Bea',h:'@bea · pod',p:377,c:'#7C5CFF'},
+    {n:'Max',h:'@max · pod',p:340,c:'#34E8A0'},
+    {n:'Nova',h:'@nova · you',p:298,c:'#22E1D6',me:true},
+    {n:'Cy',h:'@cy · pod',p:255,c:'#FF4FD8'},
+    {n:'Theo',h:'@theo · pod',p:230,c:'#4F8BFF'},
+    {n:'Rue',h:'@rue · pod',p:205,c:'#4F8BFF'},
+    {n:'Owen',h:'@owen · pod',p:188,c:'#22E1D6'},
+    {n:'Pip',h:'@pip · pod',p:160,c:'#FFB86C'},
+    {n:'Ivy',h:'@ivy · pod',p:142,c:'#FF4FD8'},
+  ]},
+  {name:'Focus Circle', members:[
+    {n:'Nash',c:'#34E8A0',active:false},{n:'Lyra',c:'#7C5CFF',active:false},{n:'Finn',c:'#FF4FD8',active:false},
+    {n:'Suri',c:'#22E1D6',active:true},{n:'Nova',c:'#22E1D6',active:false},
+  ], board:[
+    {n:'Suri',h:'@suri · pod',p:230,c:'#22E1D6'},
+    {n:'Nova',h:'@nova · you',p:205,c:'#22E1D6',me:true},
+    {n:'Lyra',h:'@lyra · pod',p:188,c:'#7C5CFF'},
+    {n:'Nash',h:'@nash · pod',p:150,c:'#34E8A0'},
+    {n:'Finn',h:'@finn · pod',p:129,c:'#FF4FD8'},
+  ]},
+];
+let activePod=0;
+function bubbleHTML(p){
+  return `
+    <div class="motionpod">
+      <div class="bubble">
+        <div class="pn">${p.name}</div>
+        <div class="ps">${p.members.length} MEMBERS</div>
+        <div class="live"><i></i><span class="liveN">${p.members.filter(m=>m.active).length}</span> breathing now</div>
+      </div>
+      <div class="orbitwrap"></div>
+    </div>`;
+}
+function renderOrbitIn(wrap,p){
+  if(!wrap)return;
+  const active=p.members.filter(m=>m.active);
+  const n=active.length;
+  const R = n<=3?104:(n<=5?116:128);
+  wrap.innerHTML = active.map((m,idx)=>{
+    const angle=(Math.PI*2*idx/n)-Math.PI/2;
+    const x=(Math.cos(angle)*R).toFixed(1);
+    const y=(Math.sin(angle)*R).toFixed(1);
+    const dur=(3.2+Math.random()*1.8).toFixed(2);
+    const del=(Math.random()*1.6).toFixed(2);
+    return `<div class="orbitAv" style="--x:${x}px;--y:${y}px">
+      <div class="orbitAvIn" style="background:${m.c};animation-duration:${dur}s;animation-delay:-${del}s">${m.n[0]}<div class="pulse"></div></div>
+    </div>`;
+  }).join('');
+}
+function renderPods(){
+  const box=document.getElementById('podscroll');
+  box.innerHTML = PODS.map(p=>bubbleHTML(p)).join('');
+  box.querySelectorAll('.motionpod').forEach((node,i)=>renderOrbitIn(node.querySelector('.orbitwrap'),PODS[i]));
+  activePod=0;
+  renderBoard();
+}
+function renderPodFocus(i){
+  const box=document.getElementById('podfocus');
+  const p=PODS[i];
+  box.innerHTML = bubbleHTML(p);
+  renderOrbitIn(box.querySelector('.orbitwrap'),p);
+}
+function updateActivePod(){
+  const box=document.getElementById('podscroll');
+  const nodes=[...box.querySelectorAll('.motionpod')];
+  let closest=0,min=Infinity;
+  nodes.forEach((n,i)=>{
+    const d=Math.abs(n.offsetTop-box.scrollTop);
+    if(d<min){min=d;closest=i;}
+  });
+  if(closest!==activePod){
+    activePod=closest;
+    renderBoard();
+  }
+}
+function pulsePresence(){
+  PODS.forEach(p=>{
+    if(Math.random()<0.55){
+      const idx=Math.floor(Math.random()*p.members.length);
+      p.members[idx].active=!p.members[idx].active;
+    }
+  });
+  document.querySelectorAll('#podscroll .motionpod').forEach((node,i)=>{
+    const p=PODS[i];
+    const liveN=node.querySelector('.liveN');
+    if(liveN) liveN.textContent=p.members.filter(m=>m.active).length;
+    renderOrbitIn(node.querySelector('.orbitwrap'),p);
+  });
+  if(statsExpanded){
+    const focusNode=document.querySelector('#podfocus .motionpod');
+    if(focusNode){
+      const p=PODS[activePod];
+      const liveN=focusNode.querySelector('.liveN');
+      if(liveN) liveN.textContent=p.members.filter(m=>m.active).length;
+      renderOrbitIn(focusNode.querySelector('.orbitwrap'),p);
+    }
+  }
+  syncLeaderboardDots();
+}
+setInterval(pulsePresence,3400);
+function syncLeaderboardDots(){
+  const pod=PODS[activePod];
+  document.querySelectorAll('#lead .av').forEach(av=>{
+    const mem=pod.members.find(x=>x.n===av.dataset.n);
+    const dot=av.querySelector('.avdot');
+    if(dot) dot.style.display = (mem&&mem.active) ? 'block' : 'none';
+  });
+}
+
+/* ---------- pods leaderboard + daily trigger share (per-pod, follows scroll) ---------- */
+function renderBoard(){
+  const pod=PODS[activePod];
+  const board=pod.board;
+  board.sort((a,b)=>b.p-a.p);
+  const lead=document.getElementById('lead');
+  lead.style.opacity=0;
+  lead.innerHTML=board.map((m,i)=>{
+    const mem=pod.members.find(x=>x.n===m.n);
+    const isActive=!!(mem&&mem.active);
+    return `
+    <div class="lrow ${m.me?'me':''}">
+      <div class="rank ${i===0?'top':''}">${i+1}</div>
+      <div class="av" data-n="${m.n}" style="background:${m.c}">${m.n[0]}<div class="avdot" style="display:${isActive?'block':'none'}"></div></div>
+      <div class="nm">${m.n}<small>${m.h}</small></div>
+      <div class="pts">${m.p}<small>pts</small></div>
+    </div>`;
+  }).join('');
+  const titleEl=document.getElementById('lbTitle');
+  if(titleEl) titleEl.textContent=pod.name+' leaderboard';
+  requestAnimationFrame(()=>{lead.style.opacity=1;});
+}
+function toggleLeaderboard(){
+  document.getElementById('lead').classList.toggle('collapsed');
+  document.getElementById('lbtoggle').classList.toggle('collapsed');
+}
+let statsExpanded=false;
+function toggleStats(){
+  statsExpanded=!statsExpanded;
+  document.getElementById('podscroll').classList.toggle('hide',statsExpanded);
+  document.getElementById('podfocus').classList.toggle('show',statsExpanded);
+  document.getElementById('podstats').classList.toggle('expanded',statsExpanded);
+  document.getElementById('statsArrow').classList.toggle('expanded',statsExpanded);
+  document.getElementById('statsToggleLbl').textContent = statsExpanded?'HIDE STATS':'SHOW STATS';
+  if(statsExpanded){
+    renderPodFocus(activePod);
+    renderBoard();
+  }
+}
+function shareStats(){
+  const board=PODS[activePod].board;
+  const me=board.find(m=>m.me);
+  if(!me){toast('you\'re not in this pod yet');return;}
+  me.p+=Math.floor(20+Math.random()*24);
+  renderBoard();
+  toast('✓ today\'s exhale shared · +'+ '22 pts to the board');
+}
+
+/* ---------- discover: distance + temp pods ---------- */
+let temp=[
+  {n:'Sunset Breathers',km:0.4,mem:4,ic:'☾'},
+  {n:'Library Quiet Hour',km:1.2,mem:9,ic:'◐'},
+  {n:'Riverside Reset',km:2.1,mem:6,ic:'◈'},
+  {n:'Late Shift Calm',km:3.8,mem:3,ic:'◑'},
+  {n:'Campus Cooldown',km:6.4,mem:12,ic:'✦'},
+];
+let perm=[];
+let radius=2.5;
+function setRadius(v){radius=(v*0.5).toFixed(1);document.getElementById('radlbl').textContent=radius+' km';renderTemp();}
+function renderTemp(){
+  const box=document.getElementById('temppods');
+  const near=temp.filter(t=>t.km<=radius);
+  box.innerHTML = near.length? near.map(t=>`
+    <div class="podcard">
+      <div class="dot2">${t.ic}</div>
+      <div class="pinfo">
+        <div class="pt">${t.n} <span class="tempchip">TEMP</span></div>
+        <div class="pm">${t.km} km away · ${t.mem} nearby</div>
+      </div>
+      <button class="btn mini" onclick="makePerm('${t.n}')">KEEP ✦</button>
+    </div>`).join('')
+    : `<div style="font-size:9px;color:var(--t2);letter-spacing:.06em;padding:6px 2px">no pods within ${radius} km — widen your radius ↑</div>`;
+}
+function makePerm(name){
+  const i=temp.findIndex(t=>t.n===name); if(i<0)return;
+  const p=temp.splice(i,1)[0]; perm.push(p);
+  renderTemp();
+  document.getElementById('permpods').innerHTML=perm.map(t=>`
+    <div class="podcard">
+      <div class="dot2">${t.ic}</div>
+      <div class="pinfo">
+        <div class="pt">${t.n} <span class="permchip">PERMANENT</span></div>
+        <div class="pm">saved · syncs to your pod board</div>
+      </div>
+      <button class="btn mini ghost" style="background:var(--bg3);color:var(--t1)">✓ SAVED</button>
+    </div>`).join('');
+  toast('✦ '+name+' is now a permanent pod');
+}
+
+/* ---------- friends ---------- */
+let reqs=[{n:'Juno',h:'@juno',c:'#7C5CFF'},{n:'Ash',h:'@ash',c:'#FF6B6B'}];
+let friends=[{n:'Kai',h:'@kai',c:'#4F8BFF',s:'🔥 12'},{n:'Mila',h:'@mila',c:'#FF4FD8',s:'🔥 9'},{n:'Ren',h:'@ren',c:'#34E8A0',s:'🔥 5'}];
+function renderFriends(){
+  document.getElementById('reqs').innerHTML = reqs.length? reqs.map(r=>`
+    <div class="prow"><div class="av" style="background:${r.c}">${r.n[0]}</div>
+      <div class="l">${r.n}<br><small style="color:var(--t2);font-size:8px">${r.h} wants to breathe with you</small></div>
+      <button class="btn mini" onclick="accept('${r.n}')">✓</button></div>`).join('')
+    : `<div style="font-size:9px;color:var(--t2);padding:6px 2px">no pending requests</div>`;
+  document.getElementById('friends').innerHTML = friends.map(f=>`
+    <div class="prow"><div class="av" style="background:${f.c}">${f.n[0]}</div>
+      <div class="l">${f.n}<br><small style="color:var(--t2);font-size:8px">${f.h}</small></div>
+      <div class="r">${f.s}</div></div>`).join('');
+  document.getElementById('fcount').textContent=friends.length+' TOTAL';
+}
+function accept(n){
+  const i=reqs.findIndex(r=>r.n===n);const r=reqs.splice(i,1)[0];
+  friends.unshift({n:r.n,h:r.h,c:r.c,s:'🔥 1'});renderFriends();toast('✓ '+n+' added — say hi 👋');
+}
+function addFriend(){
+  const el=document.getElementById('fadd');let v=el.value.trim();if(!v)return;
+  if(v[0]!=='@')v='@'+v;
+  const name=v.slice(1).charAt(0).toUpperCase()+v.slice(2);
+  const cols=['#22E1D6','#7C5CFF','#FF4FD8','#34E8A0','#4F8BFF','#FFB86C'];
+  reqs.push({n:name||'Friend',h:v,c:cols[Math.floor(Math.random()*cols.length)]});
+  el.value='';renderFriends();toast('request sent to '+v);
+}
+
+/* ---------- profile: live color changer ---------- */
+const PRESETS=[
+  ['#22E1D6','#7C5CFF','#FF4FD8'], // aurora signal (default)
+  ['#34E8A0','#22E1D6','#4F8BFF'], // calm tide
+  ['#7C5CFF','#B14FFF','#FF4FD8'], // ultraviolet
+  ['#FF6B6B','#FF9E4F','#FFD166'], // ember
+  ['#4F8BFF','#22E1D6','#34E8A0'], // deep dive
+  ['#FF4FD8','#7C5CFF','#4F8BFF'], // neon dusk
+];
+function applyGrad(a,b,c){
+  const r=document.documentElement.style;
+  r.setProperty('--aA',a);r.setProperty('--aB',b);r.setProperty('--aC',c);
+}
+function renderPresets(){
+  document.getElementById('presets').innerHTML=PRESETS.map((p,i)=>
+    `<div class="preset ${i===0?'on':''}" style="background:linear-gradient(135deg,${p[0]},${p[1]},${p[2]})" onclick="pickPreset(${i},this)"></div>`).join('');
+}
+function pickPreset(i,el){
+  document.querySelectorAll('.preset').forEach(p=>p.classList.remove('on'));
+  el.classList.add('on');
+  applyGrad(...PRESETS[i]);
+  toast('color updated · syncs across the app');
+}
+function hsl(h,s,l){return `hsl(${h} ${s}% ${l}%)`;}
+function setHue(h){
+  h=+h;
+  applyGrad(hsl(h,80,60), hsl((h+45)%360,75,62), hsl((h+90)%360,85,66));
+  document.querySelectorAll('.preset').forEach(p=>p.classList.remove('on'));
+  document.getElementById('huev').textContent=h+'°';
+}
+
+/* ---------- init ---------- */
+setRange(document.querySelector('.seg button.on'),'day');
+renderPods();renderTemp();renderFriends();renderPresets();
+document.getElementById('podscroll').addEventListener('scroll',()=>requestAnimationFrame(updateActivePod));
+</script>
+</body>
+</html>
