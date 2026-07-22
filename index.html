@@ -32,21 +32,7 @@ body::after{width:720px;height:720px;background:radial-gradient(circle,var(--aA)
 
 .stage{position:relative;z-index:1;display:flex;gap:34px;flex-wrap:wrap;align-items:flex-start;justify-content:center}
 
-/* brand token strip */
-.brand{width:300px;background:linear-gradient(180deg,var(--bg1),var(--bg2));border:1px solid var(--border);border-radius:26px;padding:26px 22px;position:relative;overflow:hidden}
-.brand h1{font-weight:800;font-size:30px;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;display:inline-block}
-.brand .cursor{display:inline-block;width:9px;height:26px;border-radius:2px;background:var(--grad);vertical-align:-4px;margin-left:4px;animation:blink 1.2s steps(2) infinite}
 @keyframes blink{50%{opacity:.15}}
-.kick{font-size:9px;letter-spacing:.18em;color:var(--t2);margin-top:6px}
-.sec-l{font-size:9px;letter-spacing:.16em;color:var(--t2);margin:22px 0 10px}
-.grow{display:flex;gap:8px;flex-wrap:wrap}
-.gchip{width:52px;height:34px;border-radius:9px;border:1px solid rgba(255,255,255,.06)}
-.swrow{display:flex;gap:8px;flex-wrap:wrap}
-.sw{width:38px;height:38px;border-radius:9px;border:1px solid rgba(255,255,255,.08);position:relative}
-.sw span{position:absolute;bottom:-15px;left:0;font-size:7px;color:var(--t2)}
-.type-demo div{margin:2px 0}
-.tw800{font-weight:800}.tw500{font-weight:500}.tw400{font-weight:400}
-.hexpill{font-size:9px;color:var(--aA);border:1px solid var(--border);border-radius:6px;padding:3px 6px;display:inline-block;margin:3px 4px 0 0}
 
 /* phone */
 .phone{width:340px;height:720px;background:var(--bg1);border-radius:42px;border:1px solid var(--border);
@@ -235,6 +221,22 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;heigh
 .prow .ic{width:32px;height:32px;border-radius:10px;background:var(--gradSoft);display:grid;place-items:center;font-size:14px}
 .prow .l{flex:1;font-size:11px;font-weight:500}
 .prow .r{font-size:10px;color:var(--t2)}
+.prow .l small{display:block;font-size:8px;color:var(--t2);font-weight:400;margin-top:2px;letter-spacing:.04em}
+.swtoggle{width:38px;height:22px;border-radius:20px;background:var(--bg3);border:1px solid var(--border);position:relative;cursor:pointer;flex-shrink:0;transition:background .25s ease,border-color .25s ease}
+.swtoggle .kn{position:absolute;top:1px;left:1px;width:18px;height:18px;border-radius:50%;background:var(--t1);transition:transform .25s cubic-bezier(.22,1,.36,1),background .25s ease}
+.swtoggle.on{background:var(--grad);border-color:transparent}
+.swtoggle.on .kn{transform:translateX(16px);background:#07070F}
+.devrow{display:flex;align-items:center;gap:12px;background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:12px}
+.devrow .ic{width:32px;height:32px;border-radius:10px;background:var(--gradSoft);display:grid;place-items:center;font-size:14px;flex-shrink:0}
+.devrow .dinfo{flex:1;min-width:0}
+.devrow .dname{font-size:11px;font-weight:600;display:flex;align-items:center;gap:6px}
+.devrow .dmeta{font-size:9px;color:var(--t2);margin-top:2px;letter-spacing:.04em}
+.statusdot{width:6px;height:6px;border-radius:50%;background:var(--t2);flex-shrink:0}
+.statusdot.on{background:var(--aA);box-shadow:0 0 6px var(--aA);animation:blink 1.6s infinite}
+.forgetbtn{width:26px;height:26px;border-radius:8px;border:1px solid var(--border);background:var(--bg3);display:grid;place-items:center;color:var(--t2);font-size:11px;cursor:pointer;flex-shrink:0;transition:.2s}
+.forgetbtn:hover{color:#FF6B6B;border-color:#FF6B6B}
+.devsim{text-align:center;font-size:9px;color:var(--t2);letter-spacing:.05em;margin-top:10px;cursor:pointer}
+.devsim b{color:var(--aA);font-weight:600}
 
 /* bottom nav */
 .nav{position:absolute;left:0;right:0;bottom:0;height:72px;background:color-mix(in srgb,var(--bg1) 88%,transparent);
@@ -251,69 +253,77 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;heigh
 .backrow{display:flex;align-items:center;gap:10px;margin-bottom:6px}
 .backrow .bk{width:32px;height:32px;border-radius:10px;border:1px solid var(--border);background:var(--bg2);display:grid;place-items:center;cursor:pointer;color:var(--t1)}
 .backrow h3{font-size:14px;font-weight:700}
+
+/* auth */
+.phone.preauth .nav{display:none}
+#v-auth{padding-top:56px}
+.authhead{text-align:center;margin-bottom:8px}
+.authswitch{text-align:center;font-size:10px;color:var(--t2);margin-top:20px;letter-spacing:.04em}
+.authswitch b{color:var(--aA);cursor:pointer;font-weight:600}
+.fieldstack{display:flex;flex-direction:column;gap:10px}
+.usernamepick{display:flex;align-items:center;gap:10px;background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:12px}
+.usernamepick .unhandle{flex:1;font-size:14px;font-weight:700;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.unstatus{font-size:9px;letter-spacing:.05em;margin-top:8px;min-height:11px}
+.unstatus.ok{color:var(--aA)}
+.unstatus.bad{color:#FF6B6B}
+.unedit{margin-top:8px;background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:12px;display:none}
 </style>
 </head>
 <body>
 <div class="bgblob"></div>
 <div class="stage">
 
-  <!-- BRAND TOKEN STRIP -->
-  <div class="brand">
-    <div><span style="font-weight:800;font-size:30px;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent">exhale</span><span class="cursor"></span></div>
-    <div class="kick">BRAND SYSTEM · CYBERPUNK AMBIENT</div>
-
-    <div class="sec-l">GRADIENT SYSTEM — THE CALM SIGNAL</div>
-    <div class="grow">
-      <div class="gchip" style="background:linear-gradient(135deg,#22E1D6,#7C5CFF,#FF4FD8)"></div>
-      <div class="gchip" style="background:linear-gradient(135deg,#34E8A0,#22E1D6,#4F8BFF)"></div>
-      <div class="gchip" style="background:linear-gradient(135deg,#7C5CFF,#FF4FD8)"></div>
-      <div class="gchip" style="background:linear-gradient(135deg,#FF6B6B,#FFB86C)"></div>
-      <div class="gchip" style="background:linear-gradient(135deg,#4F8BFF,#7C5CFF)"></div>
-    </div>
-
-    <div class="sec-l">NEUTRALS — LAYERED DEEP SPACE</div>
-    <div class="swrow" style="margin-bottom:20px">
-      <div class="sw" style="background:#07070F"><span>bg/0</span></div>
-      <div class="sw" style="background:#0B0B1A"><span>bg/1</span></div>
-      <div class="sw" style="background:#12132A"><span>bg/2</span></div>
-      <div class="sw" style="background:#1B1D3A"><span>bg/3</span></div>
-      <div class="sw" style="background:#2C2F55"><span>bord</span></div>
-      <div class="sw" style="background:#F2F0FF"><span style="color:#F2F0FF">t/0</span></div>
-    </div>
-
-    <div class="sec-l">NEON ACCENTS</div>
-    <div class="swrow" style="margin-bottom:20px">
-      <div class="sw" style="background:#22E1D6"><span>cyan</span></div>
-      <div class="sw" style="background:#7C5CFF"><span>violet</span></div>
-      <div class="sw" style="background:#FF4FD8"><span>magenta</span></div>
-      <div class="sw" style="background:#34E8A0"><span>mint</span></div>
-      <div class="sw" style="background:#4F8BFF"><span>blue</span></div>
-    </div>
-
-    <div class="sec-l">TYPOGRAPHY — JETBRAINS MONO</div>
-    <div class="type-demo">
-      <div class="tw800" style="font-size:26px">Display</div>
-      <div class="tw800" style="font-size:18px">Heading</div>
-      <div class="tw500" style="font-size:13px">Body — clean & calm</div>
-      <div class="tw400" style="font-size:10px;color:var(--t2);letter-spacing:.14em">CAPTION · +14% TRACKING</div>
-    </div>
-
-    <div class="sec-l">FOUNDATIONS</div>
-    <div>
-      <span class="hexpill">radius 10 / 14 / 26</span>
-      <span class="hexpill">spacing · 4px base</span>
-      <span class="hexpill">glow · blur 40</span>
-    </div>
-    <div style="margin-top:14px"><button class="btn" style="pointer-events:none">GRADIENT BUTTON</button></div>
-  </div>
-
   <!-- PHONE: HOME + PODS + PROFILE -->
-  <div class="phone">
+  <div class="phone preauth">
     <div class="notch"></div>
     <div class="screen">
 
+      <!-- AUTH (login / create account) -->
+      <div class="view active" id="v-auth">
+        <div class="authhead">
+          <div class="logo" style="font-size:26px">exhale<span class="cur"></span></div>
+          <div class="sub" style="margin-top:6px">BREATHE TOGETHER</div>
+        </div>
+
+        <div class="seg" style="margin-top:22px">
+          <button class="on" id="authTabLogin" onclick="setAuthMode('login')">LOG IN</button>
+          <button id="authTabSignup" onclick="setAuthMode('signup')">SIGN UP</button>
+        </div>
+
+        <!-- LOGIN -->
+        <div id="loginForm">
+          <div class="h2"><span class="dot"></span>Welcome back</div>
+          <div class="fieldstack">
+            <input class="inp" id="loginEmail" placeholder="email">
+            <input class="inp" id="loginPass" type="password" placeholder="password">
+          </div>
+          <div style="margin-top:16px"><button class="btn" onclick="doLogin()">LOG IN</button></div>
+        </div>
+
+        <!-- SIGN UP -->
+        <div id="signupForm" style="display:none">
+          <div class="h2"><span class="dot"></span>Create account</div>
+          <div class="fieldstack">
+            <input class="inp" id="suEmail" placeholder="email">
+            <input class="inp" id="suPass" type="password" placeholder="password">
+            <input class="inp" id="suPass2" type="password" placeholder="confirm password">
+          </div>
+
+          <div class="h2" style="margin-top:18px"><span class="dot"></span>Your username</div>
+          <div class="sub" style="margin-bottom:10px">AUTO-GENERATED · CHANGE ANYTIME IN PROFILE</div>
+          <div class="usernamepick">
+            <span class="unhandle" id="suHandle">@—</span>
+            <div class="iconbtn" title="generate a new one" onclick="rerollUsername()">⟳</div>
+          </div>
+
+          <div style="margin-top:18px"><button class="btn" onclick="doSignup()">CREATE ACCOUNT</button></div>
+        </div>
+
+        <div class="authswitch" id="authswitch">don't have an account? <b onclick="setAuthMode('signup')">sign up</b></div>
+      </div>
+
       <!-- HOME (stats folded in) -->
-      <div class="view active" id="v-home">
+      <div class="view" id="v-home">
         <div class="topbar">
           <div class="logo">exhale<span class="cur"></span></div>
           <div class="iconbtn" title="notifications">◔</div>
@@ -345,8 +355,8 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;heigh
 
         <div class="hstat">
           <div class="card"><div class="n grad">12</div><div class="k">DAY STREAK</div></div>
-          <div class="card"><div class="n">6</div><div class="k">SESSIONS</div></div>
-          <div class="card"><div class="n">48<span style="font-size:10px;color:var(--t2)">m</span></div><div class="k">EXHALED</div></div>
+          <div class="card"><div class="n" id="hsSessions">6</div><div class="k">SESSIONS</div></div>
+          <div class="card"><div class="n" id="hsExhaled">48<span style="font-size:10px;color:var(--t2)">m</span></div><div class="k">EXHALED</div></div>
         </div>
 
         <!-- stats sheet -->
@@ -454,9 +464,9 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;heigh
         </div>
 
         <div class="prof-head">
-          <div class="bigav">N</div>
-          <div class="pname">Nova Reyes</div>
-          <div class="phandle">@nova · deep diver</div>
+          <div class="bigav" id="bigav">N</div>
+          <div class="pname" id="pname">Nova Reyes</div>
+          <div class="phandle" id="phandle">@nova · deep diver</div>
           <div class="pmini">
             <div><div class="n grad" style="background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent">12</div><div class="k">STREAK</div></div>
             <div><div class="n">1.2k</div><div class="k">MINUTES</div></div>
@@ -476,10 +486,35 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;heigh
 
         <div class="h2"><span class="dot"></span>Account</div>
         <div class="rowlist">
+          <div class="prow" onclick="toggleDisplayNameEdit()" style="cursor:pointer"><div class="ic">✎</div><div class="l">Display name</div><div class="r" id="dnDisplay">Nova Reyes ›</div></div>
+          <div class="unedit" id="dnedit">
+            <input class="inp" id="dnInput" placeholder="your name" oninput="checkDisplayName()" style="width:100%">
+            <div class="unstatus" id="dnstatus"></div>
+            <button class="btn mini" id="dnsave" onclick="saveDisplayName()" disabled style="margin-top:6px">SAVE</button>
+          </div>
+          <div class="prow" onclick="toggleUsernameEdit()" style="cursor:pointer"><div class="ic">@</div><div class="l">Username</div><div class="r" id="unDisplay">@nova ›</div></div>
+          <div class="unedit" id="unedit">
+            <input class="inp" id="unInput" placeholder="new username" oninput="checkUsernameAvail()" style="width:100%">
+            <div class="unstatus" id="unstatus"></div>
+            <button class="btn mini" id="unsave" onclick="saveUsername()" disabled style="margin-top:6px">SAVE</button>
+          </div>
           <div class="prow"><div class="ic">◐</div><div class="l">Daily trigger time</div><div class="r">8:00 PM ›</div></div>
           <div class="prow"><div class="ic">☺</div><div class="l">Friends & pods</div><div class="r">7 ›</div></div>
           <div class="prow"><div class="ic">◔</div><div class="l">Notifications</div><div class="r">On ›</div></div>
+          <div class="prow" onclick="logout()" style="cursor:pointer"><div class="ic">⏻</div><div class="l">Log out</div><div class="r">›</div></div>
         </div>
+
+        <div class="h2"><span class="dot"></span>Devices</div>
+        <div class="sub" style="margin-bottom:10px">PAIR A DVS MODULE TO TRACK PUFFS AUTOMATICALLY · MULTIPLE DEVICES SYNC INTO ONE FEED</div>
+        <div class="rowlist" id="deviceRows">
+          <div style="font-size:9px;color:var(--t2);letter-spacing:.06em;padding:6px 2px">no devices paired yet</div>
+        </div>
+        <div style="margin-top:8px"><button class="btn" onclick="pairDevice()">⌁ PAIR NEW DEVICE</button></div>
+        <div class="devsim" onclick="simulateDevice()">no hardware yet? <b>simulate a device</b></div>
+
+        <div class="h2"><span class="dot"></span>Real name in pods</div>
+        <div class="sub" style="margin-bottom:10px">WHEN OFF FOR A POD, MEMBERS THERE SEE ONLY YOUR @USERNAME</div>
+        <div class="rowlist" id="privacyRows"></div>
       </div>
 
     </div><!-- /screen -->
@@ -537,10 +572,10 @@ function setRange(btn,r){
 
 /* ---------- pods: scrollable group chats with live presence bubbles ---------- */
 const PODS=[
-  {name:'Deep Divers', members:[
+  {name:'Deep Divers', showRealName:true, members:[
     {n:'Kai',c:'#4F8BFF',active:true},{n:'Mila',c:'#FF4FD8',active:true},{n:'Ren',c:'#34E8A0',active:false},
     {n:'Sol',c:'#FFB86C',active:true},{n:'Juno',c:'#7C5CFF',active:false},{n:'Ash',c:'#FF6B6B',active:false},
-    {n:'Nova',c:'#22E1D6',active:true},
+    {n:'Nova',c:'#22E1D6',active:true,me:true},
   ], board:[
     {n:'Kai',h:'@kai · pod',p:412,c:'#4F8BFF'},
     {n:'Mila',h:'@mila · pod',p:388,c:'#FF4FD8'},
@@ -550,9 +585,9 @@ const PODS=[
     {n:'Juno',h:'@juno · pod',p:246,c:'#7C5CFF'},
     {n:'Ash',h:'@ash · pod',p:198,c:'#FF6B6B'},
   ]},
-  {name:'Night Owls', members:[
+  {name:'Night Owls', showRealName:true, members:[
     {n:'Wren',c:'#7C5CFF',active:true},{n:'Iris',c:'#FF4FD8',active:false},{n:'Dax',c:'#22E1D6',active:true},
-    {n:'Lex',c:'#FFB86C',active:false},{n:'Coco',c:'#34E8A0',active:true},{n:'Nova',c:'#22E1D6',active:false},
+    {n:'Lex',c:'#FFB86C',active:false},{n:'Coco',c:'#34E8A0',active:true},{n:'Nova',c:'#22E1D6',active:false,me:true},
   ], board:[
     {n:'Wren',h:'@wren · pod',p:298,c:'#7C5CFF'},
     {n:'Coco',h:'@coco · pod',p:276,c:'#34E8A0'},
@@ -561,11 +596,11 @@ const PODS=[
     {n:'Lex',h:'@lex · pod',p:190,c:'#FFB86C'},
     {n:'Iris',h:'@iris · pod',p:151,c:'#FF4FD8'},
   ]},
-  {name:'Morning Calm', members:[
+  {name:'Morning Calm', showRealName:false, members:[
     {n:'Theo',c:'#4F8BFF',active:false},{n:'Zara',c:'#FF6B6B',active:true},{n:'Bea',c:'#7C5CFF',active:true},
     {n:'Owen',c:'#22E1D6',active:false},{n:'Ivy',c:'#FF4FD8',active:false},{n:'Max',c:'#34E8A0',active:true},
     {n:'Pip',c:'#FFB86C',active:false},{n:'Rue',c:'#4F8BFF',active:false},{n:'Cy',c:'#FF4FD8',active:true},
-    {n:'Nova',c:'#22E1D6',active:true},
+    {n:'Nova',c:'#22E1D6',active:true,me:true},
   ], board:[
     {n:'Zara',h:'@zara · pod',p:402,c:'#FF6B6B'},
     {n:'Bea',h:'@bea · pod',p:377,c:'#7C5CFF'},
@@ -578,9 +613,9 @@ const PODS=[
     {n:'Pip',h:'@pip · pod',p:160,c:'#FFB86C'},
     {n:'Ivy',h:'@ivy · pod',p:142,c:'#FF4FD8'},
   ]},
-  {name:'Focus Circle', members:[
+  {name:'Focus Circle', showRealName:true, members:[
     {n:'Nash',c:'#34E8A0',active:false},{n:'Lyra',c:'#7C5CFF',active:false},{n:'Finn',c:'#FF4FD8',active:false},
-    {n:'Suri',c:'#22E1D6',active:true},{n:'Nova',c:'#22E1D6',active:false},
+    {n:'Suri',c:'#22E1D6',active:true},{n:'Nova',c:'#22E1D6',active:false,me:true},
   ], board:[
     {n:'Suri',h:'@suri · pod',p:230,c:'#22E1D6'},
     {n:'Nova',h:'@nova · you',p:205,c:'#22E1D6',me:true},
@@ -612,8 +647,9 @@ function renderOrbitIn(wrap,p){
     const y=(Math.sin(angle)*R).toFixed(1);
     const dur=(3.2+Math.random()*1.8).toFixed(2);
     const del=(Math.random()*1.6).toFixed(2);
+    const init = m.me ? meDisplay(p).initial : m.n[0];
     return `<div class="orbitAv" style="--x:${x}px;--y:${y}px">
-      <div class="orbitAvIn" style="background:${m.c};animation-duration:${dur}s;animation-delay:-${del}s">${m.n[0]}<div class="pulse"></div></div>
+      <div class="orbitAvIn" style="background:${m.c};animation-duration:${dur}s;animation-delay:-${del}s">${init}<div class="pulse"></div></div>
     </div>`;
   }).join('');
 }
@@ -687,11 +723,12 @@ function renderBoard(){
   lead.innerHTML=board.map((m,i)=>{
     const mem=pod.members.find(x=>x.n===m.n);
     const isActive=!!(mem&&mem.active);
+    const disp = m.me ? meDisplay(pod) : {name:m.n,handle:m.h,initial:m.n[0]};
     return `
     <div class="lrow ${m.me?'me':''}">
       <div class="rank ${i===0?'top':''}">${i+1}</div>
-      <div class="av" data-n="${m.n}" style="background:${m.c}">${m.n[0]}<div class="avdot" style="display:${isActive?'block':'none'}"></div></div>
-      <div class="nm">${m.n}<small>${m.h}</small></div>
+      <div class="av" data-n="${m.n}" style="background:${m.c}">${disp.initial}<div class="avdot" style="display:${isActive?'block':'none'}"></div></div>
+      <div class="nm">${disp.name}<small>${disp.handle}</small></div>
       <div class="pts">${m.p}<small>pts</small></div>
     </div>`;
   }).join('');
@@ -825,9 +862,324 @@ function setHue(h){
   document.getElementById('huev').textContent=h+'°';
 }
 
+/* ---------- username registry + generator ---------- */
+const ADJ=['quiet','calm','still','gentle','soft','slow','deep','clear','misty','hollow','faint','tranquil','muted','dusky','airy','placid','serene','hazy','pale','soft'];
+const NOUN=['wren','ash','wave','fern','moss','ember','tide','cloud','reed','dune','birch','haze','sparrow','willow','glow','shore','pine','dawn','current','lull'];
+// usernames already in use across the app (pod members etc.) — new picks must avoid these
+const TAKEN=new Set(['nova','kai','mila','ren','sol','juno','ash','wren','iris','dax','lex','coco',
+  'theo','zara','bea','owen','ivy','max','pip','rue','cy','nash','lyra','finn','suri']);
+const currentUser={handle:'nova',displayName:'Nova Reyes'};
+function meDisplay(pod){
+  if(pod.showRealName){
+    const dn=(currentUser.displayName||'').trim()||('@'+currentUser.handle);
+    return {name:dn, handle:'@'+currentUser.handle+' · you', initial:dn.charAt(0).toUpperCase()};
+  }
+  return {name:'@'+currentUser.handle, handle:'you', initial:currentUser.handle.charAt(0).toUpperCase()};
+}
+function refreshMeEverywhere(){
+  renderBoard();
+  document.querySelectorAll('#podscroll .motionpod').forEach((node,i)=>renderOrbitIn(node.querySelector('.orbitwrap'),PODS[i]));
+  if(statsExpanded){
+    const focusNode=document.querySelector('#podfocus .motionpod');
+    if(focusNode) renderOrbitIn(focusNode.querySelector('.orbitwrap'),PODS[activePod]);
+  }
+}
+
+function genUsername(){
+  let h;
+  do{
+    const a=ADJ[Math.floor(Math.random()*ADJ.length)];
+    const n=NOUN[Math.floor(Math.random()*NOUN.length)];
+    const num=Math.floor(10+Math.random()*90);
+    h=a+n+num;
+  }while(TAKEN.has(h));
+  return h;
+}
+let pendingSignupHandle='';
+function rerollUsername(){
+  pendingSignupHandle=genUsername();
+  document.getElementById('suHandle').textContent='@'+pendingSignupHandle;
+}
+
+/* ---------- auth ---------- */
+function setAuthMode(mode){
+  const isLogin=mode==='login';
+  document.getElementById('authTabLogin').classList.toggle('on',isLogin);
+  document.getElementById('authTabSignup').classList.toggle('on',!isLogin);
+  document.getElementById('loginForm').style.display=isLogin?'block':'none';
+  document.getElementById('signupForm').style.display=isLogin?'none':'block';
+  document.getElementById('authswitch').innerHTML = isLogin
+    ? `don't have an account? <b onclick="setAuthMode('signup')">sign up</b>`
+    : `already have an account? <b onclick="setAuthMode('login')">log in</b>`;
+  if(!isLogin && !pendingSignupHandle) rerollUsername();
+}
+function doLogin(){
+  const email=document.getElementById('loginEmail').value.trim();
+  const pass=document.getElementById('loginPass').value;
+  if(!email||!pass){toast('enter your email and password');return;}
+  enterApp(currentUser.handle);
+}
+function doSignup(){
+  const email=document.getElementById('suEmail').value.trim();
+  const pass=document.getElementById('suPass').value;
+  const pass2=document.getElementById('suPass2').value;
+  if(!email||!pass){toast('enter an email and password');return;}
+  if(pass!==pass2){toast("passwords don't match");return;}
+  if(!pendingSignupHandle) rerollUsername();
+  TAKEN.add(pendingSignupHandle);
+  toast('✓ account created · @'+pendingSignupHandle);
+  enterApp(pendingSignupHandle);
+}
+function enterApp(handle){
+  currentUser.handle=handle;
+  document.getElementById('phandle').textContent='@'+handle+' · deep diver';
+  document.getElementById('unDisplay').textContent='@'+handle+' ›';
+  syncProfileHeader();
+  document.querySelector('.phone').classList.remove('preauth');
+  show('v-home');
+}
+function syncProfileHeader(){
+  document.getElementById('pname').textContent=currentUser.displayName;
+  document.getElementById('dnDisplay').textContent=currentUser.displayName+' ›';
+  document.getElementById('bigav').textContent=(currentUser.displayName.trim().charAt(0)||'?').toUpperCase();
+}
+function logout(){
+  document.getElementById('loginEmail').value='';
+  document.getElementById('loginPass').value='';
+  document.getElementById('unedit').style.display='none';
+  pendingSignupHandle='';
+  setAuthMode('login');
+  document.querySelector('.phone').classList.add('preauth');
+  show('v-auth');
+}
+
+/* ---------- profile: change username ---------- */
+function toggleUsernameEdit(){
+  const panel=document.getElementById('unedit');
+  const open = panel.style.display!=='block';
+  panel.style.display=open?'block':'none';
+  if(open){
+    const input=document.getElementById('unInput');
+    input.value=currentUser.handle;
+    checkUsernameAvail();
+    input.focus();
+  }
+}
+function checkUsernameAvail(){
+  const raw=document.getElementById('unInput').value.trim().toLowerCase();
+  const val=raw.replace(/[^a-z0-9_]/g,'');
+  const statusEl=document.getElementById('unstatus');
+  const saveBtn=document.getElementById('unsave');
+  statusEl.className='unstatus';
+  if(!val){statusEl.textContent='';saveBtn.disabled=true;return;}
+  if(val.length<3){statusEl.textContent='too short — min 3 characters';statusEl.classList.add('bad');saveBtn.disabled=true;return;}
+  if(val===currentUser.handle){statusEl.textContent='this is your current username';saveBtn.disabled=true;return;}
+  if(TAKEN.has(val)){statusEl.textContent='✗ @'+val+' is already taken';statusEl.classList.add('bad');saveBtn.disabled=true;return;}
+  statusEl.textContent='✓ @'+val+' is available';statusEl.classList.add('ok');saveBtn.disabled=false;
+}
+function saveUsername(){
+  const val=document.getElementById('unInput').value.trim().toLowerCase().replace(/[^a-z0-9_]/g,'');
+  if(!val||TAKEN.has(val)||val.length<3)return;
+  TAKEN.delete(currentUser.handle);
+  TAKEN.add(val);
+  currentUser.handle=val;
+  document.getElementById('unDisplay').textContent='@'+val+' ›';
+  document.getElementById('phandle').textContent='@'+val+' · deep diver';
+  document.getElementById('unedit').style.display='none';
+  toast('✓ username updated to @'+val);
+  refreshMeEverywhere();
+}
+
+/* ---------- profile: change display name ---------- */
+function toggleDisplayNameEdit(){
+  const panel=document.getElementById('dnedit');
+  const open = panel.style.display!=='block';
+  panel.style.display=open?'block':'none';
+  if(open){
+    const input=document.getElementById('dnInput');
+    input.value=currentUser.displayName;
+    checkDisplayName();
+    input.focus();
+  }
+}
+function checkDisplayName(){
+  const val=document.getElementById('dnInput').value.trim();
+  const statusEl=document.getElementById('dnstatus');
+  const saveBtn=document.getElementById('dnsave');
+  statusEl.className='unstatus';
+  if(!val){statusEl.textContent='';saveBtn.disabled=true;return;}
+  if(val.length<2){statusEl.textContent='too short — min 2 characters';statusEl.classList.add('bad');saveBtn.disabled=true;return;}
+  if(val===currentUser.displayName){statusEl.textContent='this is your current display name';saveBtn.disabled=true;return;}
+  statusEl.textContent='this is what pods see you as, when shown';statusEl.classList.add('ok');saveBtn.disabled=false;
+}
+function saveDisplayName(){
+  const val=document.getElementById('dnInput').value.trim();
+  if(!val||val.length<2)return;
+  currentUser.displayName=val;
+  document.getElementById('dnedit').style.display='none';
+  syncProfileHeader();
+  toast('✓ display name updated to '+val);
+  refreshMeEverywhere();
+}
+
+/* ---------- profile: real name visibility per pod ---------- */
+function renderPrivacyRows(){
+  const box=document.getElementById('privacyRows');
+  if(!box)return;
+  box.innerHTML=PODS.map((p,i)=>`
+    <div class="prow">
+      <div class="ic">◐</div>
+      <div class="l">${p.name}<small>${p.showRealName?'showing '+currentUser.displayName:'showing @'+currentUser.handle+' only'}</small></div>
+      <div class="swtoggle ${p.showRealName?'on':''}" onclick="togglePodRealName(${i})"><div class="kn"></div></div>
+    </div>`).join('');
+}
+function togglePodRealName(i){
+  PODS[i].showRealName=!PODS[i].showRealName;
+  renderPrivacyRows();
+  refreshMeEverywhere();
+}
+
+/* ---------- DVS device pairing ---------- */
+// Per the DVS Data Contract (module -> app): the module advertises a GATT service and
+// notifies UTF-8 JSON events ("puff" / "session_summary") on one characteristic.
+// SERVICE/CHAR UUIDs below are placeholders — swap for the real ones once Meisum freezes
+// the firmware. Connect/subscribe/parse/ingest are otherwise wired and ready to go.
+const DVS_SERVICE_UUID='7a1e0001-2c9e-4f6b-9c1a-6e0b5f1d0001';
+const DVS_EVENTS_CHAR_UUID='7a1e0002-2c9e-4f6b-9c1a-6e0b5f1d0002';
+
+let pairedDevices=[]; // {id, name, kind:'ble'|'sim', device?, connected, battery, _simTimer?}
+const liveStats={sessionsToday:0, exhaledMsToday:0};
+const BASE_SESSIONS=6, BASE_EXHALED_MIN=48;
+
+function bleSupported(){ return !!(navigator.bluetooth); }
+
+async function pairDevice(){
+  if(!bleSupported()){
+    toast("this browser can't pair Bluetooth — try Chrome or Edge");
+    return;
+  }
+  try{
+    const device=await navigator.bluetooth.requestDevice({
+      filters:[{ services:[DVS_SERVICE_UUID] }],
+      optionalServices:[DVS_SERVICE_UUID]
+    });
+    await connectBleDevice(device);
+  }catch(err){
+    if(err.name!=='NotFoundError') toast('pairing cancelled');
+  }
+}
+async function connectBleDevice(device){
+  if(pairedDevices.some(d=>d.id===device.id)){ toast(device.name+' is already paired'); return; }
+  const entry={id:device.id, name:device.name||'DVS Module', kind:'ble', device, connected:false, battery:null};
+  pairedDevices.push(entry);
+  renderDevices();
+  device.addEventListener('gattserverdisconnected',()=>{
+    entry.connected=false; renderDevices();
+    toast(entry.name+' disconnected');
+  });
+  try{
+    const server=await device.gatt.connect();
+    const service=await server.getPrimaryService(DVS_SERVICE_UUID);
+    const char=await service.getCharacteristic(DVS_EVENTS_CHAR_UUID);
+    await char.startNotifications();
+    char.addEventListener('characteristicvaluechanged',e=>{
+      const text=new TextDecoder().decode(e.target.value);
+      let msg; try{ msg=JSON.parse(text); }catch(_){ return; }
+      routeDVSMessage(msg,entry);
+    });
+    entry.connected=true;
+    toast('✓ '+entry.name+' connected');
+  }catch(err){
+    toast("couldn't reach "+entry.name+' — check it\'s powered on and in range');
+  }
+  renderDevices();
+}
+function forgetDevice(id){
+  const i=pairedDevices.findIndex(d=>d.id===id); if(i<0)return;
+  const entry=pairedDevices[i];
+  if(entry.kind==='sim' && entry._simTimer) clearInterval(entry._simTimer);
+  if(entry.kind==='ble' && entry.device.gatt && entry.device.gatt.connected) entry.device.gatt.disconnect();
+  pairedDevices.splice(i,1);
+  renderDevices();
+  toast(entry.name+' forgotten');
+}
+function renderDevices(){
+  const box=document.getElementById('deviceRows');
+  if(!box)return;
+  if(!pairedDevices.length){
+    box.innerHTML='<div style="font-size:9px;color:var(--t2);letter-spacing:.06em;padding:6px 2px">no devices paired yet</div>';
+    return;
+  }
+  box.innerHTML=pairedDevices.map(d=>{
+    const status=d.connected?'connected':'disconnected';
+    const batt=typeof d.battery==='number'?Math.round(d.battery*100)+'% battery':'battery unknown';
+    return `
+    <div class="devrow">
+      <div class="ic">⌁</div>
+      <div class="dinfo">
+        <div class="dname">${d.name}<span class="statusdot ${d.connected?'on':''}"></span></div>
+        <div class="dmeta">${status} · ${batt}</div>
+      </div>
+      <div class="forgetbtn" onclick="forgetDevice('${d.id}')" title="forget device">✕</div>
+    </div>`;
+  }).join('');
+}
+
+/* incoming DVS messages, keyed off the "type" field from the data contract */
+function routeDVSMessage(msg,entry){
+  if(msg.type==='puff') handlePuff(msg,entry);
+  else if(msg.type==='session_summary') handleSessionSummary(msg,entry);
+}
+function handlePuff(msg,entry){
+  toast('puff logged · '+Math.round((msg.intensity||0)*100)+'% intensity');
+  if(entry && typeof msg.device_battery==='number'){ entry.battery=msg.device_battery; renderDevices(); }
+}
+function handleSessionSummary(msg,entry){
+  liveStats.sessionsToday+=1;
+  liveStats.exhaledMsToday+=(msg.total_draw_ms||0);
+  refreshHomeStats();
+  toast('session logged · '+msg.puff_count+' puffs');
+}
+function refreshHomeStats(){
+  const sEl=document.getElementById('hsSessions');
+  const eEl=document.getElementById('hsExhaled');
+  if(sEl) sEl.textContent=BASE_SESSIONS+liveStats.sessionsToday;
+  if(eEl) eEl.innerHTML=(BASE_EXHALED_MIN+Math.round(liveStats.exhaledMsToday/60000))+'<span style="font-size:10px;color:var(--t2)">m</span>';
+}
+
+/* dev-only: emits real puff/session_summary events on a timer so the pairing + stats
+   flow is demoable before hardware exists — routes through the same pipeline as BLE */
+function simulateDevice(){
+  const id='sim-'+Date.now();
+  const entry={id, name:'DVS Module (sim)', kind:'sim', connected:true, battery:0.91};
+  pairedDevices.push(entry);
+  renderDevices();
+  toast('✓ simulated device connected');
+  let puffsThisSession=0;
+  entry._simTimer=setInterval(()=>{
+    puffsThisSession++;
+    entry.battery=Math.max(0,entry.battery-0.01);
+    routeDVSMessage({
+      type:'puff', session_id:1, timestamp:new Date().toISOString(),
+      duration_ms:1200+Math.floor(Math.random()*1800),
+      intensity:+(0.3+Math.random()*0.6).toFixed(2),
+      device_battery:+entry.battery.toFixed(2)
+    },entry);
+    if(puffsThisSession>=4){
+      routeDVSMessage({
+        type:'session_summary', session_id:1,
+        start:new Date(Date.now()-40000).toISOString(), end:new Date().toISOString(),
+        puff_count:puffsThisSession, total_draw_ms:puffsThisSession*1800
+      },entry);
+      puffsThisSession=0;
+    }
+  },6000);
+}
+
 /* ---------- init ---------- */
 setRange(document.querySelector('.seg button.on'),'day');
-renderPods();renderTemp();renderFriends();renderPresets();
+renderPods();renderTemp();renderFriends();renderPresets();renderPrivacyRows();renderDevices();
+rerollUsername();
 document.getElementById('podscroll').addEventListener('scroll',()=>requestAnimationFrame(updateActivePod));
 </script>
 </body>
