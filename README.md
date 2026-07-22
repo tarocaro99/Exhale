@@ -25,3 +25,7 @@ More setup instructions coming soon.
 ---
 
 **Dead Vapes Society**
+
+---
+
+Built with Claude AI
